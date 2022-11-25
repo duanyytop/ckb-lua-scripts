@@ -1,0 +1,9 @@
+[workspace]
+members = ["tests", "contracts/ckb-lua-scripts", "ckb-lib-lua"]
+
+[profile.release]
+overflow-checks = true
+opt-level = 's'
+lto = true
+codegen-units = 1
+panic = 'abort'

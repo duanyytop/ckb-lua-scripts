@@ -1,0 +1,12 @@
+
+[package]
+name = "ckb-lib-lua"
+version = "0.1.0"
+authors = ["dylan <duanyytop@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+ckb-std = {package = "ckb-std", git = "https://github.com/duanyytop/ckb-std", branch="develop"}
+
+[build-dependencies]
+blake2b-rs = "0.2.0"
