@@ -36,7 +36,6 @@ impl LibCKBLua {
                 code.len() as u32,
             )
         };
-        debug!("error code: {}", error_code);
         if error_code != 0 {
             return Err(error_code);
         }

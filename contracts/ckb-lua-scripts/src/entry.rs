@@ -13,7 +13,7 @@ pub fn main() -> Result<(), Error> {
     let args: Bytes = script.args().unpack();
     debug!("script args is {:?}", args);
 
-    let lua_code: &[u8] = b"ckb.exit_script(42)";
+    let lua_code: &[u8] = b"ckb.exit_script(32)";
 
     let mut context = unsafe { CKBDLContext::<[u8; 1024 * 1024]>::new() };
     let lib_lua = LibCKBLua::load(&mut context);

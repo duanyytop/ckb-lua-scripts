@@ -14,7 +14,7 @@ fn main() {
     let mut out_file = BufWriter::new(File::create(&out_path).expect("create code_hashes.rs"));
 
     let name = "LUA";
-    let path = "../lua/build/libckblua";
+    let path = "../ckb-lua/build/libckblua.so";
 
     let mut buf = [0u8; BUF_SIZE];
 

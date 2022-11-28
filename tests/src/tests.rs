@@ -15,7 +15,7 @@ fn test_success() {
     let contract_bin: Bytes = Loader::default().load_binary("ckb-lua-scripts");
     let out_point = context.deploy_cell(contract_bin);
 
-    let lua_bin: Bytes = fs::read("../lua/build/libckblua").expect("load lua")
+    let lua_bin: Bytes = fs::read("../ckb-lua/build/libckblua.so").expect("load lua")
     .into();
     let lua_out_point = context.deploy_cell(lua_bin);
     let lua_dep = CellDep::new_builder()
