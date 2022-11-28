@@ -1,0 +1,3 @@
+[submodule "ckb-lua"]
+	path = ckb-lua
+	url = https://github.com/duanyytop/ckb-lua.git
