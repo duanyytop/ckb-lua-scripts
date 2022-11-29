@@ -6,7 +6,7 @@ authors = ["dylan <duanyytop@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-ckb-std = {package = "ckb-std", git = "https://github.com/duanyytop/ckb-std", branch="master"}
+ckb-std = {package = "ckb-std", git = "https://github.com/nervosnetwork/ckb-std"}
 
 [build-dependencies]
 blake2b-rs = "0.2.0"
