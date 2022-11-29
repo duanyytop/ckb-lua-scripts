@@ -1,4 +1,5 @@
 use super::*;
+use ckb_testtool::ckb_hash::blake2b_256;
 use ckb_testtool::context::Context;
 use ckb_testtool::ckb_types::{
     bytes::Bytes,
@@ -22,9 +23,14 @@ fn test_success() {
         .out_point(lua_out_point)
         .build();
 
+    let mut args: Vec<u8> = vec![];
+    let lua_code: &[u8] = b"ckb.exit_script(32)";
+    let lua_code_hash = &blake2b_256(lua_code)[0..20];
+    args.extend(lua_code_hash);
+    args.extend(&[123u8; 8]);
     // prepare scripts
     let lock_script = context
-        .build_script(&out_point, Bytes::from(vec![42]))
+        .build_script(&out_point, Bytes::from(args))
         .expect("script");
     let lock_script_dep = CellDep::new_builder()
         .out_point(out_point)
@@ -54,6 +60,11 @@ fn test_success() {
 
     let outputs_data = vec![Bytes::new(); 2];
 
+    let witness_args = WitnessArgsBuilder::default()
+        .lock(Some(Bytes::from(lua_code)).pack())
+        .build();
+    let witnesses = vec![witness_args.as_bytes().pack()];
+
     // build transaction
     let tx = TransactionBuilder::default()
         .input(input)
@@ -61,7 +72,9 @@ fn test_success() {
         .outputs_data(outputs_data.pack())
         .cell_dep(lock_script_dep)
         .cell_dep(lua_dep)
+        .witnesses(witnesses)
         .build();
+
     let tx = context.complete_tx(tx);
 
     // run
