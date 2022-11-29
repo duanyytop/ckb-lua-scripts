@@ -9,8 +9,8 @@ use ckb_std::{
 use crate::{error::Error, helper::{blake2b_160}};
 
 // lua_code_hash_len(20bytes) + extra_parameter_len(8bytes)
-// extra_parameter: price = udt/ckb * 10^8. 
-// For example: If the price of udt/ckb is 2.5, the extra_parameter will be (int)(2.5*10^8).
+// extra_parameter: interest = udt/ckb * 10^8. 
+// For example: If the interest of udt/ckb is 2.5, the extra_parameter will be (int)(2.5*10^8).
 const ARGS_LEN: usize = 28;
 
 pub fn main() -> Result<(), Error> {
@@ -33,9 +33,9 @@ pub fn main() -> Result<(), Error> {
     if &lua_code_hash != &args[0..20] {
         return Err(Error::LuaCodeHashError);
     }
-    let mut price_bytes = [0u8; 8];
-    price_bytes.copy_from_slice(&args[20..]);
-    let price = u64::from_be_bytes(price_bytes);
+    let mut interest_bytes = [0u8; 8];
+    interest_bytes.copy_from_slice(&args[20..]);
+    let interest = u64::from_be_bytes(interest_bytes);
 
     let mut context = unsafe { CKBDLContext::<[u8; 1024 * 1024]>::new() };
     let lib_lua = LibCKBLua::load(&mut context);

@@ -1,11 +1,11 @@
 [package]
 name = "ckb-lua-scripts"
 version = "0.1.0"
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 blake2b-ref = "0.3.0"
-ckb-std = {package = "ckb-std", git = "https://github.com/duanyytop/ckb-std", branch="develop"}
+ckb-std = {package = "ckb-std", git = "https://github.com/duanyytop/ckb-std", branch="master"}
 ckb-lib-lua = { path = "../../ckb-lib-lua" }
