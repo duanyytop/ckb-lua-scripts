@@ -1,8 +1,5 @@
 use crate::code_hashes::CODE_HASH_LUA;
 use ckb_std::dynamic_loading_c_impl::{CKBDLContext, Symbol};
-use ckb_std::{
-    debug,
-};
 
 const RUN_LUA_CODE: &[u8; 12] = b"run_lua_code";
 type RunLuaCode = unsafe extern "C" fn(
