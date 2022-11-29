@@ -7,8 +7,10 @@ pub enum Error {
     ItemMissing,
     LengthNotEnough,
     Encoding,
-    // Add customized errors here...
-    MyError,
+    ScriptArgsInvalid = 5,
+    LuaScriptExecuteError,
+    WitnessArgsParseError,
+    LuaCodeHashError,
 }
 
 impl From<SysError> for Error {
