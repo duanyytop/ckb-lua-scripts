@@ -24,10 +24,15 @@ fn test_success() {
         .build();
 
     let mut args: Vec<u8> = vec![];
-    let lua_code: &[u8] = b"ckb.exit_script(32)";
-    let lua_code_hash = &blake2b_256(lua_code)[0..20];
+    let lua_code = fs::read("../dex/dex.lua").expect("load lua");
+    println!("lua code length: {}", lua_code.len());
+    let lua_code_hash = &blake2b_256(&lua_code)[0..20];
     args.extend(lua_code_hash);
-    args.extend(&[123u8; 8]);
+
+    // 1udt = 5.5ckb
+    let interest: u64 = 55 * 10_u64.pow(7);
+    println!("{}", interest);
+    args.extend(&interest.to_be_bytes());
     // prepare scripts
     let lock_script = context
         .build_script(&out_point, Bytes::from(args))

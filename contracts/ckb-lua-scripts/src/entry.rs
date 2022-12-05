@@ -11,14 +11,16 @@ use crate::{error::Error, helper::{blake2b_160}};
 // lua_code_hash_len(20bytes) + extra_parameter_len(8bytes)
 // extra_parameter: interest = udt/ckb * 10^8. 
 // For example: If the interest of udt/ckb is 2.5, the extra_parameter will be (int)(2.5*10^8).
-const ARGS_LEN: usize = 28;
+const ARGS_MIN_LEN: usize = 20;
 
 pub fn main() -> Result<(), Error> {
     let script = load_script()?;
     let args: Bytes = script.args().unpack();
-    if args.len() != ARGS_LEN {
+    if args.len() <= ARGS_MIN_LEN {
         return Err(Error::ScriptArgsInvalid);
     }
+
+    debug!("args: {:?}", args);
 
     let witness_args = load_witness_args(0, Source::GroupInput)?;
     let witness_lock: Bytes = witness_args
@@ -30,12 +32,9 @@ pub fn main() -> Result<(), Error> {
         return Err(Error::WitnessArgsParseError);
     }
     let lua_code_hash = blake2b_160(&witness_lock);
-    if &lua_code_hash != &args[0..20] {
+    if &lua_code_hash != &args[0..ARGS_MIN_LEN] {
         return Err(Error::LuaCodeHashError);
     }
-    let mut interest_bytes = [0u8; 8];
-    interest_bytes.copy_from_slice(&args[20..]);
-    let interest = u64::from_be_bytes(interest_bytes);
 
     let mut context = unsafe { CKBDLContext::<[u8; 1024 * 1024]>::new() };
     let lib_lua = LibCKBLua::load(&mut context);
